@@ -5,14 +5,37 @@ on:
       - main
 
 jobs:
-  build_flake:
+  build_wine:
     runs-on: macos-15
     permissions:
       contents: read
     steps:
       - uses: actions/checkout@v4
+
+      - name: Cache Homebrew
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/Library/Caches/Homebrew
+            /usr/local/Homebrew
+            /usr/local/Cellar
+            /usr/local/Caskroom
+            /usr/local/bin
+            /usr/local/etc
+            /usr/local/include
+            /usr/local/lib
+            /usr/local/opt
+            /usr/local/sbin
+            /usr/local/share
+            /usr/local/var
+            /opt/homebrew
+          key: brew-${{ runner.os }}-${{ hashFiles('**/build.sh') }}
+          restore-keys: |
+            brew-${{ runner.os }}-
+
       - name: Build Wine
         run: /bin/sh build.sh
+
       - run: ls -l -a
       # - name: Archive code coverage results
       #   uses: actions/upload-artifact@v4
