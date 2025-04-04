@@ -20,6 +20,11 @@ fi;
 /opt/homebrew/bin/brew install --formula bison mingw-w64 pkgconfig wget
 arch -x86_64 /usr/local/bin/brew install --formula freetype gnutls molten-vk sdl2
 
+mkdir -p ~/.pkg-config
+echo 'PKG_CONFIG_PATH="/usr/local/opt/gnutls/lib/pkgconfig:$PKG_CONFIG_PATH"' > ~/.pkg-config/env
+source ~/.pkg-config/env
+arch -x86_64 pkg-config --list-all | grep gnutls || { echo "gnutls not found in pkg-config"; exit 1; }
+
 export CC="arch -x86_64 cc"
 export CXX="arch -x86_64 c++"
 export CPP="arch -x86_64 cpp"

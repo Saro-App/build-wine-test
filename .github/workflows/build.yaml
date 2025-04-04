@@ -36,8 +36,25 @@ jobs:
       - name: Build Wine
         run: /bin/sh build.sh
 
-      - run: ls -l -a
-      # - name: Archive code coverage results
-      #   uses: actions/upload-artifact@v4
-      #   with:
-      #     name: code-coverage-report
+      - name: Display directory structure
+        run: |
+          echo "Current directory:"
+          ls -la
+          echo "Sources directory:"
+          ls -la sources/ || echo "No sources directory"
+          echo "Wine directory:"
+          ls -la sources/wine/ || echo "No sources/wine directory"
+          echo "Wine program files:"
+          find sources/wine/ -name "*.exe" -o -name "*.dll" | head -20
+
+      - name: Upload wine build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: wine-build-artifacts
+          path: |
+            sources/wine/dlls/**/*.dll
+            sources/wine/programs/**/*.exe
+            sources/wine/programs/**/*.dll
+            sources/wine/loader/*.exe
+            sources/wine/server/wineserver
+            sources/wine/*.so
