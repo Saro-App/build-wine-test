@@ -1,0 +1,20 @@
+name: Build Crossover Wine 25
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build_flake:
+    runs-on: macos-15
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build Wine
+        run: /bin/sh build.sh
+      - run: ls -l -a
+      # - name: Archive code coverage results
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: code-coverage-report
