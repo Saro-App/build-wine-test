@@ -30,7 +30,6 @@ export CXX="arch -x86_64 c++"
 export CPP="arch -x86_64 cpp"
 export CFLAGS="-m64"
 
-
 URL="https://media.codeweavers.com/pub/crossover/source/crossover-sources-25.0.0.tar.gz"
 TAR_FILE="crossover-sources-25.0.0.tar.gz"
 EXPECTED_SHA256="b0f3c1263bb1d7bfb8afa63493550be832ca55cd5f3d0bd2c9077991638d4e44"
