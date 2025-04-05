@@ -26,3 +26,10 @@ Using `export PKG_CONFIG_PATH="/usr/local/lib/pkgconfig:$PKG_CONFIG_PATH"` got i
 I have no hope it'll work.
 
 Also gonna try `-j$(sysctl -n hw.logicalcpu)` if it makes it faster
+
+Got it working, it even built in CI.
+Next need to actually upload more artifacts, build for win64, figure out why stuff like --with-pcap works when we dont install libpcap
+
+Also need to get libinotify and gstreamer working
+
+Also working on gecko and mono

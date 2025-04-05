@@ -64,6 +64,7 @@ echo "Running configure..."
     --host=x86_64-darwin \
     --build=x86_64-darwin \
     --enable-archs=x86_64 \
+    --enable-win64 \
     --disable-tests \
     --without-alsa \
     --without-capi \

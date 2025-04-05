@@ -47,15 +47,59 @@ jobs:
           ls -la sources/wine/ || echo "No sources/wine directory"
           echo "Wine program files:"
           find sources/wine/ -name "*.exe" -o -name "*.dll" | head -20
+          echo "Wine executables:"
+          find sources/wine/ -type f -executable -not -path "*/\.*" | grep -v "\.\(o\|c\|h\)$" | head -20
+
+      - name: Download Gecko and Mono directly into artifact-staging
+        run: |
+          mkdir -p artifact-staging/share/wine/gecko
+          mkdir -p artifact-staging/share/wine/mono
+
+          GECKO_VERSION="2.47.4"
+          MONO_VERSION="9.4.0"
+
+          curl -o artifact-staging/share/wine/gecko/wine-gecko-${GECKO_VERSION}-x86_64.msi \
+            https://dl.winehq.org/wine/wine-gecko/${GECKO_VERSION}/wine-gecko-${GECKO_VERSION}-x86_64.msi
+
+          curl -o artifact-staging/share/wine/mono/wine-mono-${MONO_VERSION}-x86.msi \
+            https://dl.winehq.org/wine/wine-mono/${MONO_VERSION}/wine-mono-${MONO_VERSION}-x86.msi
+
+      - name: Organize artifacts
+        run: |
+          mkdir -p artifact-staging/bin
+          mkdir -p artifact-staging/lib
+          mkdir -p artifact-staging/tools
+          mkdir -p artifact-staging/include
+          mkdir -p artifact-staging/config
+
+          cp sources/wine/loader/wine artifact-staging/bin/ || echo "No wine binary found"
+          cp sources/wine/server/wineserver artifact-staging/bin/ || echo "No wineserver binary found"
+          cp sources/wine/tools/wineapploader artifact-staging/bin/ || echo "No wineapploader found"
+          cp sources/wine/tools/winewrapper artifact-staging/bin/ || echo "No winewrapper found"
+
+          cp sources/wine/tools/widl/widl artifact-staging/tools/ || echo "No widl found"
+          cp sources/wine/tools/winebuild/winebuild artifact-staging/tools/ || echo "No winebuild found"
+          cp sources/wine/tools/winedump/winedump artifact-staging/tools/ || echo "No winedump found"
+          cp sources/wine/tools/winegcc/winegcc artifact-staging/tools/ || echo "No winegcc found"
+          cp sources/wine/tools/winegcc/wineg++ artifact-staging/tools/ || echo "No wineg++ found"
+          cp sources/wine/tools/winegcc/winecpp artifact-staging/tools/ || echo "No winecpp found"
+          cp sources/wine/tools/winemaker/winemaker artifact-staging/tools/ || echo "No winemaker found"
+          cp sources/wine/tools/wmc/wmc artifact-staging/tools/ || echo "No wmc found"
+          cp sources/wine/tools/wrc/wrc artifact-staging/tools/ || echo "No wrc found"
+          cp sources/wine/tools/sfnt2fon/sfnt2fon artifact-staging/tools/ || echo "No sfnt2fon found"
+
+          cp sources/wine/loader/*.exe artifact-staging/bin/ 2>/dev/null || echo "No extra loader exe files found"
+          cp sources/wine/loader/*.so artifact-staging/bin/ 2>/dev/null || echo "No extra loader so files found"
+
+          find sources/wine/dlls -type f \( -name "*.dll" -o -name "*.so" -o -name "*.dylib" -o -name "*.a" \) -exec cp {} artifact-staging/lib/ \; || echo "No DLLs/SOs/Dylibs/*.a found"
+          find sources/wine/programs -type f \( -name "*.exe" -o -name "*.dll" \) -exec cp {} artifact-staging/lib/ \; || echo "No EXEs found"
+
+          cp -r sources/wine/include artifact-staging/include/ || echo "No include directory found"
+
+          find sources/wine -type f -name "*.conf" -exec cp {} artifact-staging/config/ \; || echo "No configuration files found"
 
       - name: Upload wine build artifacts
         uses: actions/upload-artifact@v4
         with:
           name: wine-build-artifacts
-          path: |
-            sources/wine/dlls/**/*.dll
-            sources/wine/programs/**/*.exe
-            sources/wine/programs/**/*.dll
-            sources/wine/loader/*.exe
-            sources/wine/server/wineserver
-            sources/wine/*.so
+          path: artifact-staging
