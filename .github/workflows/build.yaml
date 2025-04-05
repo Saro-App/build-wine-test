@@ -11,6 +11,7 @@ jobs:
       contents: read
     steps:
       - uses: actions/checkout@v4
+      - run: uname -a
 
       - name: Cache Homebrew
         uses: actions/cache@v3
