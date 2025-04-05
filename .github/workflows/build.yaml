@@ -34,6 +34,14 @@ jobs:
           restore-keys: |
             brew-${{ runner.os }}-
 
+      - name: Cache Wine sources
+        uses: actions/cache@v3
+        with:
+          path: sources/
+          key: ${{ runner.os }}-wine-sources-${{ hashFiles('sources/**') }}
+          restore-keys: |
+            ${{ runner.os }}-wine-sources-
+
       - name: Build Wine
         run: /bin/sh build.sh
 
@@ -48,7 +56,7 @@ jobs:
           echo "Wine program files:"
           find sources/wine/ -name "*.exe" -o -name "*.dll" | head -20
           echo "Wine executables:"
-          find sources/wine/ -type f -executable -not -path "*/\.*" | grep -v "\.\(o\|c\|h\)$" | head -20
+          find sources/wine/ -type f -perm +111 -not -path "*/\.*" | grep -v "\.\(o\|c\|h\)$" | head -20
 
       - name: Download Gecko and Mono directly into artifact-staging
         run: |
@@ -94,7 +102,7 @@ jobs:
           find sources/wine/dlls -type f \( -name "*.dll" -o -name "*.so" -o -name "*.dylib" -o -name "*.a" \) -exec cp {} artifact-staging/lib/ \; || echo "No DLLs/SOs/Dylibs/*.a found"
           find sources/wine/programs -type f \( -name "*.exe" -o -name "*.dll" \) -exec cp {} artifact-staging/lib/ \; || echo "No EXEs found"
 
-          cp -r sources/wine/include artifact-staging/include/ || echo "No include directory found"
+          cp -r sources/wine/include artifact-staging/ || echo "No include directory found"
 
           find sources/wine -type f -name "*.conf" -exec cp {} artifact-staging/config/ \; || echo "No configuration files found"
 

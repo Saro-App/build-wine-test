@@ -33,3 +33,10 @@ Next need to actually upload more artifacts, build for win64, figure out why stu
 Also need to get libinotify and gstreamer working
 
 Also working on gecko and mono
+
+
+next we need to work on:
+- gecko/mono -- I added these but idk if they work
+- libinotify (gcenx's portfile for inotify)
+- gstreamer (gcenx's portfile for wine-devel)
+- all the graphics translations stuff
