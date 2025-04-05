@@ -23,10 +23,10 @@ fi;
 arch -x86_64 /usr/local/bin/brew install --formula freetype gnutls molten-vk sdl2
 export PATH="/opt/homebrew/opt/bison/bin:$PATH"
 
-mkdir -p ~/.pkg-config
-echo 'PKG_CONFIG_PATH="/usr/local/opt/gnutls/lib/pkgconfig:$PKG_CONFIG_PATH"' > ~/.pkg-config/env
-source ~/.pkg-config/env
-arch -x86_64 pkg-config --list-all | grep gnutls || { echo "gnutls not found in pkg-config"; exit 1; }
+# mkdir -p ~/.pkg-config
+# echo 'PKG_CONFIG_PATH="/usr/local/opt/gnutls/lib/pkgconfig:$PKG_CONFIG_PATH"' > ~/.pkg-config/env
+# source ~/.pkg-config/env
+# arch -x86_64 pkg-config --list-all | grep gnutls || { echo "gnutls not found in pkg-config"; exit 1; }
 
 export CC="arch -x86_64 cc"
 export CXX="arch -x86_64 c++"
