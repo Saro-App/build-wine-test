@@ -32,6 +32,7 @@ export CC="arch -x86_64 cc"
 export CXX="arch -x86_64 c++"
 export CPP="arch -x86_64 cpp"
 export CFLAGS="-m64"
+export PKG_CONFIG_PATH="/usr/local/lib/pkgconfig:$PKG_CONFIG_PATH"
 # export PKG_CONFIG_PATH="/usr/local/Cellar/pkgconf/2.4.3/lib/pkgconfig/"
 
 URL="https://media.codeweavers.com/pub/crossover/source/crossover-sources-25.0.0.tar.gz"
@@ -100,6 +101,6 @@ echo "Running configure..."
 # Note ffmpeg, libinotify, gstreamer removed
 
 echo "Running make..."
-make || { echo "Make failed"; exit 1; }
+make -j$(sysctl -n hw.logicalcpu) || { echo "Make failed"; exit 1; }
 
 echo "Build completed successfully.p"
