@@ -34,6 +34,11 @@ jobs:
           restore-keys: |
             brew-${{ runner.os }}-
 
+      - name: Ensure sources directory exists with placeholder
+        run: |
+          mkdir -p sources
+          touch sources/.placeholder
+
       - name: Cache Wine sources
         uses: actions/cache@v3
         with:
