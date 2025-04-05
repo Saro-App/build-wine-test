@@ -5,13 +5,15 @@ softwareupdate --install-rosetta --agree-to-license
 #Install homebrew for both regular and rosetta
 NONINTERACTIVE=1
 if ! [ -f /opt/homebrew/bin/brew ]; then
-    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)";
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)" \
+    || { echo "Failed to install arm64 homebrew"; exit 1; };
     echo >> ~/.zprofile;
     echo eval '"$(/opt/homebrew/bin/brew shellenv)"' >> ~/.zprofile;
     eval "$(/opt/homebrew/bin/brew shellenv)";
 fi;
 if ! [ -f /usr/local/bin/brew ]; then
-    arch -x86_64 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)";
+    arch -x86_64 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)" \
+    || { echo "Failed to install x86_64 homebrew"; exit 1; };
     echo >> ~/.zprofile
     echo eval '"$(/usr/local/bin/brew shellenv)"' >> ~/.zprofile
     eval "$(/usr/local/bin/brew shellenv)"
@@ -19,6 +21,7 @@ fi;
 
 /opt/homebrew/bin/brew install --formula bison mingw-w64 pkgconfig wget
 arch -x86_64 /usr/local/bin/brew install --formula freetype gnutls molten-vk sdl2
+export PATH="/opt/homebrew/opt/bison/bin:$PATH"
 
 mkdir -p ~/.pkg-config
 echo 'PKG_CONFIG_PATH="/usr/local/opt/gnutls/lib/pkgconfig:$PKG_CONFIG_PATH"' > ~/.pkg-config/env
@@ -49,11 +52,10 @@ fi
 echo "Extracting $TAR_FILE..."
 tar -xzf "$TAR_FILE" || { echo "Failed to extract $TAR_FILE"; exit 1; }
 
-cd sources || { echo "Failed to enter directory 'crossover-sources-25.0.0'"; exit 1; }
-cd wine || { echo "Failed to enter 'wine' directory"; exit 1; }
+cd sources/wine || { echo "Failed to enter wine directory"; exit 1; }
 
-brew install bison
-export PATH="/opt/homebrew/opt/bison/bin:$PATH"
+echo "Downloading distversion.h patch..."
+wget -q https://raw.githubusercontent.com/winedbg/build-wine-test/refs/heads/main/distversion.h -O programs/winedbg/distversion.h  || { echo "Failed to download distversion.h patch"; }
 
 echo "Running configure..."
 ./configure \
