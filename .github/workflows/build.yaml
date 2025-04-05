@@ -34,18 +34,18 @@ jobs:
           restore-keys: |
             brew-${{ runner.os }}-
 
-      - name: Ensure sources directory exists with placeholder
-        run: |
-          mkdir -p sources
-          touch sources/.placeholder
-
-      - name: Cache Wine sources
-        uses: actions/cache@v3
-        with:
-          path: sources/
-          key: ${{ runner.os }}-wine-sources-${{ hashFiles('sources/**') }}
-          restore-keys: |
-            ${{ runner.os }}-wine-sources-
+      # - name: Ensure sources directory exists with placeholder
+      #   run: |
+      #     mkdir -p sources
+      #     touch sources/.placeholder
+      #
+      # - name: Cache Wine sources
+      #   uses: actions/cache@v3
+      #   with:
+      #     path: sources/
+      #     key: ${{ runner.os }}-wine-sources-${{ hashFiles('sources/**') }}
+      #     restore-keys: |
+      #       ${{ runner.os }}-wine-sources-
 
       - name: Build Wine
         run: /bin/sh build.sh
