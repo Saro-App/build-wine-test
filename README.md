@@ -5,6 +5,11 @@
 
 2. From `sources/wine`, run `make install` to setup the prefix.
 
+
+## Important
+
+`silicon-driver.sh` should be used for bootstapping. For incremental rebuilds, just run `build.sh`.
+
 ## License
 
 Copyright (C) 2025 Ethan Uppal and @Melonchanism
