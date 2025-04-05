@@ -72,6 +72,7 @@ wget -q https://raw.githubusercontent.com/winedbg/build-wine-test/refs/heads/mai
 
 echo "Running configure..."
 ./configure \
+    --prefix="$1" \
     --host=x86_64-darwin \
     --build=x86_64-darwin \
     --enable-archs=x86_64 \

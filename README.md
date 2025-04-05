@@ -1,6 +1,11 @@
 # build-wine-test
 
-On Apple Silicon, use `/bin/sh silicon-driver.sh`.
+1. Run `/bin/sh silicon-driver.sh <path to desired wine prefix>`.
+    If you don't want to clean, do `/bin/sh build.sh <path to desired wine prefix>`.
+
+2. From `sources/wine`, run `make install` to setup the prefix.
+
+## License
 
 Copyright (C) 2025 Ethan Uppal and @Melonchanism
 

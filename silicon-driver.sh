@@ -8,4 +8,4 @@
 # You should have received a copy of the GNU General Public License along with build-wine-test. If not, see <https://www.gnu.org/licenses/>.
 
 /bin/sh clean.sh
-arch -x86_64 /bin/sh build.sh
+/bin/sh build.sh $1
