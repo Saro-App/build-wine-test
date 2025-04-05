@@ -39,20 +39,24 @@ URL="https://media.codeweavers.com/pub/crossover/source/crossover-sources-25.0.0
 TAR_FILE="crossover-sources-25.0.0.tar.gz"
 EXPECTED_SHA256="b0f3c1263bb1d7bfb8afa63493550be832ca55cd5f3d0bd2c9077991638d4e44"
 
-echo "Downloading $TAR_FILE..."
-wget -q "$URL" -O "$TAR_FILE" || { echo "Failed to download $TAR_FILE"; }
+if [ ! -d "sources" ]; then
+  echo "Downloading $TAR_FILE..."
+  wget -q "$URL" -O "$TAR_FILE" || { echo "Failed to download $TAR_FILE"; exit 1; }
 
-echo "Verifying checksum..."
-ACTUAL_SHA256=$(sha256sum "$TAR_FILE" | awk '{ print $1 }')
-if [ "$ACTUAL_SHA256" != "$EXPECTED_SHA256" ]; then
-    echo "Checksum verification failed! Expected: $EXPECTED_SHA256, Got: $ACTUAL_SHA256"
-    exit 1
+  echo "Verifying checksum..."
+  ACTUAL_SHA256=$(sha256sum "$TAR_FILE" | awk '{ print $1 }')
+  if [ "$ACTUAL_SHA256" != "$EXPECTED_SHA256" ]; then
+      echo "Checksum verification failed! Expected: $EXPECTED_SHA256, Got: $ACTUAL_SHA256"
+      exit 1
+  else
+      echo "Checksum verified successfully."
+  fi
+
+  echo "Extracting $TAR_FILE..."
+  tar -xzf "$TAR_FILE" || { echo "Failed to extract $TAR_FILE"; exit 1; }
 else
-    echo "Checksum verified successfully."
+  echo "Sources directory exists, skipping download and extraction."
 fi
-
-echo "Extracting $TAR_FILE..."
-tar -xzf "$TAR_FILE" || { echo "Failed to extract $TAR_FILE"; exit 1; }
 
 cd sources/wine || { echo "Failed to enter wine directory"; exit 1; }
 
