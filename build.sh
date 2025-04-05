@@ -46,7 +46,7 @@ URL="https://media.codeweavers.com/pub/crossover/source/crossover-sources-25.0.0
 TAR_FILE="crossover-sources-25.0.0.tar.gz"
 EXPECTED_SHA256="b0f3c1263bb1d7bfb8afa63493550be832ca55cd5f3d0bd2c9077991638d4e44"
 
-if [ ! -d "sources" ]; then
+if [ ! -d "sources/wine" ]; then
   echo "Downloading $TAR_FILE..."
   wget -q "$URL" -O "$TAR_FILE" || { echo "Failed to download $TAR_FILE"; exit 1; }
 
