@@ -75,7 +75,7 @@ echo "Running configure..."
     --prefix="$1" \
     --host=x86_64-darwin \
     --build=x86_64-darwin \
-    --enable-archs=x86_64 \
+    --enable-archs=i386,x86_64 \
     --enable-win64 \
     --disable-tests \
     --without-alsa \
@@ -108,8 +108,8 @@ echo "Running configure..."
     --with-vulkan \
     --without-wayland \
     --without-x \
-    CFLAGS="$(arch -x86_64 pkg-config gnutls --cflags)" \
-    LDFLAGS="$(arch -x86_64 pkg-config gnutls --libs)" \
+    CFLAGS="$(arch -x86_64 /usr/local/bin/pkg-config gnutls freetype2 -cflags)" \
+    LDFLAGS="$(arch -x86_64 /usr/local/bin/pkg-config gnutls freetype2 --libs)" \
     || { echo "Configure failed"; exit 1; }
 # Note ffmpeg, libinotify, gstreamer removed
 

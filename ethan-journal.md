@@ -40,3 +40,42 @@ next we need to work on:
 - libinotify (gcenx's portfile for inotify)
 - gstreamer (gcenx's portfile for wine-devel)
 - all the graphics translations stuff
+
+```
+/bin/sh silicon-driver.sh /Users/ethan/gh/build-wine-test/sources/wine/.testprefix
+cd sources/wine
+make install
+```
+Then inside prefix
+```
+WINEDEBUG="+loaddll" WINEPREFIX="/Users/ethan/gh/build-wine-test/sources/wine/.testprefix" ./bin/wine64 winecfg 
+WINEDEBUG="+loaddll" WINEPREFIX="/Users/ethan/gh/build-wine-test/sources/wine/.testprefix" ./bin/wine64 wineboot
+```
+Trying to see if wow64 will fix.
+
+Also complaints that no freetype exists. Fixed pkg-config bad CPU type in build and added freetype2 to its arguments
+
+Be careful if you accidently install arm freetype
+
+I am hard coding the path to the dylib now in wine source
+Getting format message failed though
+
+```
+make -j8 && make install -j8 && WINEDEBUG="+loaddll" WINEPREFIX="/Users/ethan/gh/build-wine-test/sources/wine/.testprefix" WINEPATH="/Users/ethan/gh/build-wine-test/sources/wine/.testprefix/lib/wine/x86_64-windows" .testprefix/bin/wine winecfg
+```
+
+Hardcode freetype dylib in dlls/win32u/freetype.c
+dlls/ntdll/unix/env.c is where wineboot fails
+
+_sigh_ I've isolated the error to creating the wineboot process:
+
+```c
+printf("actually cooked");
+        status = NtCreateUserProcess( &process, &thread, PROCESS_ALL_ACCESS, THREAD_ALL_ACCESS,
+                                      NULL, NULL, 0, THREAD_CREATE_FLAGS_CREATE_SUSPENDED, &params,
+                                      &create_info, &ps_attr );
+printf("%ld is like super sus", status);
+```
+`actually cooked1 is like super sus`
+
+I don't know if this is relevant https://list.winehq.org/mailman3/hyperkitty/list/wine-bugs%40winehq.org/thread/TNPD7M66W27YIO3GE5F45GAYOQXK4UTI/

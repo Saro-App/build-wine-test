@@ -1,0 +1,6 @@
+1837c1837,1839
+<         ft_handle = dlopen(SONAME_LIBFREETYPE, RTLD_NOW);
+---
+> 	/* ETHAN HACK 0 */
+> 	ft_handle = dlopen("/usr/local/Cellar/freetype/2.13.3/lib/libfreetype.6.dylib", RTLD_NOW);
+> 	/* END ETHAN HACK 0 */

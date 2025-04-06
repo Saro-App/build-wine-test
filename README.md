@@ -1,6 +1,6 @@
 # build-wine-test
 
-1. Run `/bin/sh silicon-driver.sh <path to desired wine prefix>`.
+1. Run `/bin/sh silicon-bootstrap.sh <path to desired wine prefix>`.
     If you don't want to clean, do `/bin/sh build.sh <path to desired wine prefix>`.
 
 2. From `sources/wine`, run `make install` to setup the prefix.
@@ -8,7 +8,14 @@
 
 ## Important
 
-`silicon-driver.sh` should be used for bootstapping. For incremental rebuilds, just run `build.sh`.
+`silicon-bootstrap.sh` should be used for bootstapping. For incremental rebuilds, just run `build.sh`.
+
+## Wait!!!
+
+Wait, you actually have to apply some patches:
+- `dlls_win32u_freetype_c.patch` to dlls/win32u/freetype.c
+
+TODO automate this
 
 ## License
 
