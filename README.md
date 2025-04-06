@@ -14,6 +14,7 @@
 
 Wait, you actually have to apply some patches:
 - `dlls_win32u_freetype_c.patch` to dlls/win32u/freetype.c
+- Paste `dll_ntdll_unix_process_c` to replace dlls/ntdll/unix/process.c
 
 TODO automate this
 
