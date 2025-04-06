@@ -3,7 +3,7 @@
 1. Run `/bin/sh silicon-bootstrap.sh <path to desired wine prefix>`.
     If you don't want to clean, do `/bin/sh build.sh <path to desired wine prefix>`.
 
-2. From `sources/wine`, run `make install` to setup the prefix.
+2. From `sources/wine`, run `make install -j$(sysctl -n hw.logicalcpu)` to setup the prefix.
 
 
 ## Important
