@@ -7,9 +7,11 @@
 # build-wine-test is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 # You should have received a copy of the GNU General Public License along with build-wine-test. If not, see <https://www.gnu.org/licenses/>.
 
-ls -a
-
-softwareupdate --install-rosetta --agree-to-license
+# Rosetta is known as "OAH" internally
+if ! /usr/bin/pgrep -q oahd;
+  then softwareupdate --install-rosetta --agree-to-license;
+  else echo "Rosetta already installed"
+fi
 
 # Install homebrew for both regular and rosetta
 NONINTERACTIVE=1
@@ -67,10 +69,14 @@ else
   echo "Sources directory exists, skipping download and extraction."
 fi
 
-cd sources/wine || { echo "Failed to enter wine directory"; exit 1; }
+echo "Applying patches..."
+{
+cp programs_winedbg_distversion.h.patch sources/wine/programs/winedbg/distversion.h
+cp -f dlls_ntdll_unix_process.c.patch sources/wine/dlls/ntdll/unix/process.c
+cp -f dlls_win32u_freetype.c.patch sources/wine/dlls/win32u/freetype.c
+} || { echo "Failed to apply patches"; exit 1; }
 
-echo "Downloading distversion.h patch..."
-wget -q https://raw.githubusercontent.com/winedbg/build-wine-test/refs/heads/main/distversion.h -O programs/winedbg/distversion.h  || { echo "Failed to download distversion.h patch"; }
+cd sources/wine || { echo "Failed to enter wine directory"; exit 1; }
 
 echo "Running configure..."
 ./configure \

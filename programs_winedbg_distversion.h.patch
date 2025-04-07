@@ -1,13 +1,11 @@
 // Copied from https://github.com/winedbg/build-wine-test/new/build-script-working
-// Move to wine/programs/winedbg/distversion.h
-
 
 /* ---------------------------------------------------------------
  *   distversion.c
  *
  * Copyright 2013, CodeWeavers, Inc.
- * 
- * Information from DISTVERSION which needs to find 
+ *
+ * Information from DISTVERSION which needs to find
  * its way into the wine tree.
  * --------------------------------------------------------------- */
 
