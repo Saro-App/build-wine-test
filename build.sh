@@ -7,10 +7,14 @@
 # build-wine-test is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 # You should have received a copy of the GNU General Public License along with build-wine-test. If not, see <https://www.gnu.org/licenses/>.
 
+if [ -z "$1" ]
+    then { echo "error: Pass destination prefix absolute path as argument"; exit 1; }
+fi
+
 # Rosetta is known as "OAH" internally
 if ! /usr/bin/pgrep -q oahd;
-  then softwareupdate --install-rosetta --agree-to-license;
-  else echo "Rosetta already installed"
+    then softwareupdate --install-rosetta --agree-to-license;
+    else echo "Rosetta already installed"
 fi
 
 # Install homebrew for both regular and rosetta
@@ -46,10 +50,12 @@ export CFLAGS="-m64"
 export PKG_CONFIG_PATH="/usr/local/lib/pkgconfig:$PKG_CONFIG_PATH"
 # export PKG_CONFIG_PATH="/usr/local/Cellar/pkgconf/2.4.3/lib/pkgconfig/"
 
-cd sources
+mkdir -p build || { echo "Failed to create build directory"; exit 1; }
+cd build || { echo "Failed to enter build directory"; exit 1; }
 
 echo "Running configure..."
-./configure \
+../sources/configure \
+    --prefix="$1" \
     --host=x86_64-darwin \
     --build=x86_64-darwin \
     --enable-archs=i386,x86_64 \
@@ -86,6 +92,8 @@ echo "Running configure..."
     --with-vulkan \
     --without-wayland \
     --without-x \
+    --without-inotify \
+    --without-ffmpeg \
     CFLAGS="$(arch -x86_64 /usr/local/bin/pkg-config gnutls freetype2 -cflags)" \
     LDFLAGS="$(arch -x86_64 /usr/local/bin/pkg-config gnutls freetype2 --libs)" \
     || { echo "Configure failed"; exit 1; }
@@ -96,4 +104,8 @@ make -j$(sysctl -n hw.logicalcpu) || { echo "Make failed"; exit 1; }
 
 echo "Build completed successfully. ez"
 
-DYLD_FALLBACK_LIBRARY_PATH="/usr/local/lib" ./wine notepad.exe
+# We do this first because otherwise wine will make a popup saying "hey you don't have gecko/mono"
+# Actually I have no clue???
+/bin/sh ../install_gecko_mono.sh "$1"
+
+make install -j$(sysctl -n hw.logicalcpu) || { echo "Installation failed"; exit 1; }

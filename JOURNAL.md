@@ -14,3 +14,10 @@
 
 ### Notes
 - "works" means notepad.exe starts properly
+
+`002c:err:winediag:getaddrinfo Failed to resolve your host name IP` happens lol.
+See https://forum.winehq.org/viewtopic.php?p=146757
+
+when I built into a custom prefix, I got:
+`0140:err:module:dlopen_dll invalid .so library "/Users/ethan/gh/build-wine-test/testprefix/dosdevices/z:/Users/ethan/gh/build-wine-test/testprefix/bin/winecfg", too old?`
+Melon suggested I just remake the prefix
