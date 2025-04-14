@@ -11,28 +11,7 @@ if [ -z "$1" ]
     then { echo "error: Pass destination prefix absolute path as argument"; exit 1; }
 fi
 
-# Rosetta is known as "OAH" internally
-if ! /usr/bin/pgrep -q oahd;
-    then softwareupdate --install-rosetta --agree-to-license;
-    else echo "Rosetta already installed"
-fi
-
-# Install homebrew for both regular and rosetta
-NONINTERACTIVE=1
-if ! [ -f /opt/homebrew/bin/brew ]; then
-    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)" \
-    || { echo "Failed to install arm64 homebrew"; exit 1; };
-    echo >> ~/.zprofile;
-    echo eval '"$(/opt/homebrew/bin/brew shellenv)"' >> ~/.zprofile;
-    eval "$(/opt/homebrew/bin/brew shellenv)";
-fi;
-if ! [ -f /usr/local/bin/brew ]; then
-    arch -x86_64 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)" \
-    || { echo "Failed to install x86_64 homebrew"; exit 1; };
-    echo >> ~/.zprofile
-    echo eval '"$(/usr/local/bin/brew shellenv)"' >> ~/.zprofile
-    eval "$(/usr/local/bin/brew shellenv)"
-fi;
+/bin/sh init.sh
 
 /opt/homebrew/bin/brew install --formula bison mingw-w64 pkgconfig wget
 arch -x86_64 /usr/local/bin/brew install --formula freetype gnutls molten-vk sdl2 gstreamer ffmpeg

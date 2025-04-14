@@ -11,6 +11,8 @@
 # - https://github.com/NixOS/nixpkgs/blob/1750f3c1c89488e2ffdd47cab9d05454dddfb734/pkgs/by-name/li/libinotify-kqueue/package.nix#L44
 # - https://github.com/Gcenx/macports-wine/blob/main/devel/libinotify/Portfile
 
+/bin/sh init.sh
+
 brew install autoconf automake libtool
 
 export CC="arch -x86_64 cc"
