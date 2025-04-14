@@ -1,3 +1,4 @@
 build/
+build-dependencies/
 testprefix/
 *.DS_Store

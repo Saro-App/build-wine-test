@@ -92,12 +92,12 @@ echo "Running configure..."
     --with-vulkan \
     --without-wayland \
     --without-x \
-    --without-inotify \
+    --with-inotify \
     --without-ffmpeg \
-    CFLAGS="$(arch -x86_64 /usr/local/bin/pkg-config gnutls freetype2 -cflags)" \
-    LDFLAGS="$(arch -x86_64 /usr/local/bin/pkg-config gnutls freetype2 --libs)" \
+    CFLAGS="$(arch -x86_64 /usr/local/bin/pkg-config gnutls freetype2 --cflags)" \
+    LDFLAGS="$(arch -x86_64 /usr/local/bin/pkg-config gnutls freetype2 --libs) -Lbuild-dependencies/libinotify-kqueue/.libs" \
     || { echo "Configure failed"; exit 1; }
-# Note ffmpeg, libinotify removed
+# Note ffmpeg removed
 
 echo "Running make..."
 make -j$(sysctl -n hw.logicalcpu) || { echo "Make failed"; exit 1; }
@@ -106,6 +106,6 @@ echo "Build completed successfully. ez"
 
 # We do this first because otherwise wine will make a popup saying "hey you don't have gecko/mono"
 # Actually I have no clue???
-/bin/sh ../install_gecko_mono.sh "$1"
+/bin/sh ../download_gecko_mono.sh "$1"
 
 make install -j$(sysctl -n hw.logicalcpu) || { echo "Installation failed"; exit 1; }

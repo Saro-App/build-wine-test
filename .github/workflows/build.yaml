@@ -12,6 +12,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: uname -a
+      - run: git submodule update --init --recursive
 
       - name: Cache homebrew
         uses: actions/cache@v3
@@ -34,16 +35,19 @@ jobs:
           restore-keys: |
             brew-${{ runner.os }}-
 
+      - name: Build and install dependencies
+        run: INSTALL=1 /bin/sh build_inotify_kqueue.sh
+
       - name: Build wine
         run: /bin/sh build.sh /Users/runner/wine-build-artifacts
-
-      - name: Test prefix
-        run: |
-          cd /Users/runner/wine-build-artifacts
-          WINEPREFIX=/Users/runner/wine-build-artifacts DYLD_FALLBACK_LIBRARY_PATH="/usr/local/lib/" time ./bin/wine wineboot
 
       - name: Upload wine build artifacts
         uses: actions/upload-artifact@v4
         with:
           name: wine-build-artifacts
           path: /Users/runner/wine-build-artifacts
+
+      - name: Test prefix
+        run: |
+          cd /Users/runner/wine-build-artifacts
+          WINEPREFIX=/Users/runner/wine-build-artifacts DYLD_FALLBACK_LIBRARY_PATH="/usr/local/lib/" time ./bin/wine wineboot

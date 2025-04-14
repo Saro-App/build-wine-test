@@ -1,0 +1,3 @@
+[submodule "libinotify-kqueue"]
+	path = libinotify-kqueue
+	url = https://github.com/libinotify-kqueue/libinotify-kqueue
