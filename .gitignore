@@ -1,2 +1,3 @@
 build/
 testprefix/
+*.DS_Store
