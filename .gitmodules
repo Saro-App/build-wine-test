@@ -3,4 +3,4 @@
 	url = https://github.com/libinotify-kqueue/libinotify-kqueue
 [submodule "wine"]
 	path = wine
-	url = https://gitlab.winehq.org/wine/wine
+	url = https://github.com/wine-mirror/wine
