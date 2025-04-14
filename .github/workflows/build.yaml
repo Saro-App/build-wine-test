@@ -1,0 +1,44 @@
+name: Build Wine
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build_wine:
+    runs-on: macos-15
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - run: uname -a
+
+      - name: Cache Homebrew
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/Library/Caches/Homebrew
+            /usr/local/Homebrew
+            /usr/local/Cellar
+            /usr/local/Caskroom
+            /usr/local/bin
+            /usr/local/etc
+            /usr/local/include
+            /usr/local/lib
+            /usr/local/opt
+            /usr/local/sbin
+            /usr/local/share
+            /usr/local/var
+            /opt/homebrew
+          key: brew-${{ runner.os }}-${{ hashFiles('**/build.sh') }}
+          restore-keys: |
+            brew-${{ runner.os }}-
+
+      - name: Build Wine
+        run: /bin/sh build.sh /Users/runner/wine-build-artifacts
+
+      - name: Upload wine build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: wine-build-artifacts
+          path: /Users/runner/wine-build-artifacts
