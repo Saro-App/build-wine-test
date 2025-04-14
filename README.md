@@ -22,7 +22,7 @@ It's as simple as running:
 ```sh
 /bin/sh build.sh <absolute path to desired wine prefix>
 ```
-Remember that you should `rm -rf <your prefix>` before rebuilding it.
+Remember that you should `rm -rf <absolute path to your prefix>` before rebuilding it.
 
 ### Cleanup
 
@@ -35,5 +35,5 @@ Remember that you should `rm -rf <your prefix>` before rebuilding it.
 To test, `cd` into your prefix directory and run:
 
 ```sh
-WINEPREFIX=/Users/ethan/gh/build-wine-test/testprefix/ DYLD_FALLBACK_LIBRARY_PATH="/usr/local/lib/" ./bin/wine winec
+WINEPREFIX=<absolute path to your prefix> DYLD_FALLBACK_LIBRARY_PATH="/usr/local/lib/" ./bin/wine winec
 ```
