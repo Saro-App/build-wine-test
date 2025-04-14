@@ -11,8 +11,6 @@ if [ -z "$1" ]
     then { echo "error: Pass destination prefix absolute path as argument"; exit 1; }
 fi
 
-/bin/sh init.sh
-
 /opt/homebrew/bin/brew install --formula bison mingw-w64 pkgconfig wget
 arch -x86_64 /usr/local/bin/brew install --formula freetype gnutls molten-vk sdl2 gstreamer ffmpeg
 export PATH="/opt/homebrew/opt/bison/bin:$PATH"

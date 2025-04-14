@@ -35,6 +35,9 @@ jobs:
           restore-keys: |
             brew-${{ runner.os }}-
 
+      - name: Setup homebrew
+        run: /bin/sh init_brew.sh
+
       - name: Build and install dependencies
         run: INSTALL=1 /bin/sh build_inotify_kqueue.sh
 

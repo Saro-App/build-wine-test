@@ -8,6 +8,10 @@ git submodule update --init --recursive
 
 ## Building
 
+### Homebrew
+
+Run `/bin/sh init_brew.sh` to setup both Arm and Intel homebrew
+
 ### Dependencies
 
 ```sh
