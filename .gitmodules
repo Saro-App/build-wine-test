@@ -1,3 +1,6 @@
 [submodule "libinotify-kqueue"]
 	path = libinotify-kqueue
 	url = https://github.com/libinotify-kqueue/libinotify-kqueue
+[submodule "wine"]
+	path = wine
+	url = https://gitlab.winehq.org/wine/wine

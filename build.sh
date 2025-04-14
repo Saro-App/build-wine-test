@@ -54,7 +54,7 @@ mkdir -p build || { echo "Failed to create build directory"; exit 1; }
 cd build || { echo "Failed to enter build directory"; exit 1; }
 
 echo "Running configure..."
-../sources/configure \
+../wine/configure \
     --prefix="$1" \
     --host=x86_64-darwin \
     --build=x86_64-darwin \
@@ -95,7 +95,7 @@ echo "Running configure..."
     --with-inotify \
     --without-ffmpeg \
     CFLAGS="$(arch -x86_64 /usr/local/bin/pkg-config gnutls freetype2 --cflags)" \
-    LDFLAGS="$(arch -x86_64 /usr/local/bin/pkg-config gnutls freetype2 --libs) -Lbuild-dependencies/libinotify-kqueue/.libs" \
+    LDFLAGS="$(arch -x86_64 /usr/local/bin/pkg-config gnutls freetype2 --libs)" \
     || { echo "Configure failed"; exit 1; }
 # Note ffmpeg removed
 
