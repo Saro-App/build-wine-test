@@ -35,7 +35,7 @@ if ! [ -f /usr/local/bin/brew ]; then
 fi;
 
 /opt/homebrew/bin/brew install --formula bison mingw-w64 pkgconfig wget
-arch -x86_64 /usr/local/bin/brew install --formula freetype gnutls molten-vk sdl2 gstreamer
+arch -x86_64 /usr/local/bin/brew install --formula freetype gnutls molten-vk sdl2 gstreamer ffmpeg
 export PATH="/opt/homebrew/opt/bison/bin:$PATH"
 
 # mkdir -p ~/.pkg-config
@@ -93,11 +93,10 @@ echo "Running configure..."
     --without-wayland \
     --without-x \
     --with-inotify \
-    --without-ffmpeg \
+    --with-ffmpeg \
     CFLAGS="$(arch -x86_64 /usr/local/bin/pkg-config gnutls freetype2 --cflags)" \
     LDFLAGS="$(arch -x86_64 /usr/local/bin/pkg-config gnutls freetype2 --libs)" \
     || { echo "Configure failed"; exit 1; }
-# Note ffmpeg removed
 
 echo "Running make..."
 make -j$(sysctl -n hw.logicalcpu) || { echo "Make failed"; exit 1; }
