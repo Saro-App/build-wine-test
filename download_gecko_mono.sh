@@ -12,7 +12,7 @@ mkdir -p "$1/share/wine/gecko"
 mkdir -p "$1/share/wine/mono"
 
 GECKO_VERSION="2.47.4"
-MONO_VERSION="9.4.0"
+MONO_VERSION="10.0.0"
 
 curl -o "$1/share/wine/gecko/wine-gecko-${GECKO_VERSION}-x86_64.msi" \
     https://dl.winehq.org/wine/wine-gecko/${GECKO_VERSION}/wine-gecko-${GECKO_VERSION}-x86_64.msi \
@@ -21,4 +21,3 @@ curl -o "$1/share/wine/gecko/wine-gecko-${GECKO_VERSION}-x86_64.msi" \
 curl -o "$1/share/wine/mono/wine-mono-${MONO_VERSION}-x86.msi" \
     https://dl.winehq.org/wine/wine-mono/${MONO_VERSION}/wine-mono-${MONO_VERSION}-x86.msi \
     || { echo "Failed to install Mono"; exit 1; }
-

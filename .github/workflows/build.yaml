@@ -44,13 +44,13 @@ jobs:
       - name: Build wine
         run: /bin/sh build.sh /Users/runner/wine-build-artifacts
 
+      - name: Test prefix
+        run: |
+          cd /Users/runner/wine-build-artifacts
+          WINEPREFIX=/Users/runner/wine-build-artifacts DYLD_FALLBACK_LIBRARY_PATH="/usr/local/lib/" time ./bin/wine wineboot -u
+
       - name: Upload wine build artifacts
         uses: actions/upload-artifact@v4
         with:
           name: wine-build-artifacts
           path: /Users/runner/wine-build-artifacts
-
-      - name: Test prefix
-        run: |
-          cd /Users/runner/wine-build-artifacts
-          WINEPREFIX=/Users/runner/wine-build-artifacts DYLD_FALLBACK_LIBRARY_PATH="/usr/local/lib/" time ./bin/wine wineboot

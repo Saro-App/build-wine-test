@@ -82,6 +82,7 @@ echo "Build completed successfully. ez"
 
 # We do this first because otherwise wine will make a popup saying "hey you don't have gecko/mono"
 # Actually I have no clue???
+# Seems to be stored in the build-wine-test/prefix
 /bin/sh ../download_gecko_mono.sh "$1"
 
 make install -j$(sysctl -n hw.logicalcpu) || { echo "Installation failed"; exit 1; }

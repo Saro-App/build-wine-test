@@ -22,6 +22,16 @@ when I built into a custom prefix, I got:
 `0140:err:module:dlopen_dll invalid .so library "/Users/ethan/gh/build-wine-test/testprefix/dosdevices/z:/Users/ethan/gh/build-wine-test/testprefix/bin/winecfg", too old?`
 Melon suggested I just remake the prefix
 
-Idk 
+Idk
 
 inotify: https://github.com/NixOS/nixpkgs/blob/1750f3c1c89488e2ffdd47cab9d05454dddfb734/pkgs/by-name/li/libinotify-kqueue/package.nix#L44
+
+
+### To-do
+- Graphics drivers (vkd3d, moltenvkcx, dxmt, possibly d3dmetal)
+- Esync & Msync
+
+
+### Mono: fixing wineboot
+- We originally got a wineboot time out event, because apparently there is a prompt to install mono, but it is hidden because it is silent
+- This was fixed by actually just updating the version of mono so that it would be detected
