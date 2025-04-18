@@ -44,20 +44,20 @@ jobs:
       - name: Build wine
         run: /bin/sh build.sh /Users/runner/wine-build-artifacts
 
-      - name: Run wineboot
-        run: |
-          cd /Users/runner/wine-build-artifacts
-          WINEPREFIX=/Users/runner/wine-build-artifacts DYLD_FALLBACK_LIBRARY_PATH="/usr/local/lib/" time ./bin/wine wineboot -u
-
-      # https://github.com/actions/upload-artifact/issues/192#issuecomment-1375651018
-      - name: Prepare files
-        run: |
-          mkdir ./tmp
-          sudo cp -r /Users/runner/wine-build-artifacts ./tmp
-          sudo chown -R runner:runner ./tmp
+      # # https://github.com/actions/upload-artifact/issues/192#issuecomment-1375651018
+      # - name: Prepare files
+      #   run: |
+      #     mkdir ./tmp
+      #     sudo cp -r /Users/runner/wine-build-artifacts ./tmp
+      #     sudo chown -R runner:runner ./tmp
 
       - name: Upload wine build artifacts
         uses: actions/upload-artifact@v4
         with:
           name: wine-build-artifacts
-          path: ./tmp
+          path: /Users/runner/wine-build-artifacts
+
+      - name: Run wineboot
+        run: |
+          cd /Users/runner/wine-build-artifacts
+          WINEPREFIX=/Users/runner/wine-build-artifacts DYLD_FALLBACK_LIBRARY_PATH="/usr/local/lib/" time ./bin/wine wineboot -u
