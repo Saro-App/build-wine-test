@@ -12,7 +12,7 @@ if [ -z "$1" ]
 fi
 
 /opt/homebrew/bin/brew install --formula bison mingw-w64 pkgconfig wget
-arch -x86_64 /usr/local/bin/brew install --formula freetype gnutls molten-vk sdl2 gstreamer ffmpeg
+arch -x86_64 /usr/local/bin/brew install --formula freetype gnutls molten-vk sdl2 gstreamer ffmpeg gettext
 export PATH="/opt/homebrew/opt/bison/bin:$PATH"
 
 # mkdir -p ~/.pkg-config
